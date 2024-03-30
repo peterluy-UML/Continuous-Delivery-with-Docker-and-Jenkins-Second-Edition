@@ -6,6 +6,11 @@ metadata:
     app: hazelcast
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 0
   selector:
     matchLabels:
       app: hazelcast
@@ -19,6 +24,9 @@ spec:
         image: hazelcast/hazelcast:3.12
         ports:
         - containerPort: 5701
+        readinessProbe:
+          tcpSocket:
+            port: 5701
 
 ---
 
